@@ -31,7 +31,11 @@
 	"lint-staged": {
 		"*": "prettier --ignore-unknown --write"
 	},
+	"dependencies": {
+		"commander": "^12.0.0"
+	},
 	"devDependencies": {
+		"@commander-js/extra-typings": "^12.0.1",
 		"@eslint/js": "9.15.0",
 		"@release-it/conventional-changelog": "9.0.1",
 		"@types/eslint__js": "8.42.3",
@@ -44,6 +48,7 @@
 		"husky": "9.1.6",
 		"knip": "5.37.0",
 		"lint-staged": "15.2.10",
+		"memfs": "^4.14.0",
 		"prettier": "3.3.3",
 		"prettier-plugin-curly": "0.3.1",
 		"prettier-plugin-packagejson": "2.5.3",
