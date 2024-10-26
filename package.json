@@ -12,9 +12,11 @@
 		"email": "0arthur.fontaine@gmail.com"
 	},
 	"type": "module",
-	"main": "./lib/index.js",
+	"bin": {
+		"uniin": "dist/index.js"
+	},
 	"files": [
-		"lib/",
+		"dist/",
 		"package.json",
 		"LICENSE.md",
 		"README.md"
