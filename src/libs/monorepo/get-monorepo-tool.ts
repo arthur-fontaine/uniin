@@ -1,4 +1,4 @@
-import { MonorepoToolNotSupportedError } from "../../errors/monorepo-tool-no-supported-error.js";
+import { MonorepoToolNotSupportedError } from "../../errors/monorepo-tool-no-supported.js";
 import { PnpmTool } from "../tools/pnpm/pnpm-tool.js";
 import { Tool } from "../tools/tool.js";
 import { findPackageManager } from "./find-package-manager.js";
