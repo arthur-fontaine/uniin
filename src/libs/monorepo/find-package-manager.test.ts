@@ -5,6 +5,7 @@ import {
 	findPackageManager,
 	readPackageManagerFromPackageJson,
 } from "./find-package-manager.js";
+import { NoPackageManagerDefinedError } from "../../errors/no-package-manager-defined.js";
 
 vi.mock("node:fs");
 
@@ -15,28 +16,34 @@ beforeEach(() => {
 describe("findPackageManager", () => {
 	it("should return npm if package.json has packageManager field set to npm", () => {
 		vol.fromJSON({
-			"/package.json": JSON.stringify({
+			"/dir/package.json": JSON.stringify({
+				workspaces: [],
 				packageManager: "npm",
 			}),
 		});
 
-		expect(findPackageManager({ cwd: "/" })).toBe("npm");
+		expect(findPackageManager({ cwd: "/dir" })).toBe("npm");
 	});
 
 	it("should return npm if a parent package.json has packageManager field set to npm", () => {
 		vol.fromJSON({
-			"/package.json": JSON.stringify({
+			"/dir/package.json": JSON.stringify({
+				workspaces: [],
 				packageManager: "npm",
 			}),
-			"/sub/package.json": JSON.stringify({}),
+			"/dir/sub/package.json": JSON.stringify({}),
 		});
 
-		expect(findPackageManager({ cwd: "/sub" })).toBe("npm");
+		expect(findPackageManager({ cwd: "/dir/sub" })).toBe("npm");
 	});
 
-	it("should throw NoPackageJsonFoundError if no package.json is found", () => {
-		expect(() => findPackageManager({ cwd: "/" })).toThrow(
-			"No package.json found in the current tree",
+	it("should throw NoPackageManagerDefinedError if package.json does not have packageManager field", () => {
+		vol.fromJSON({
+			"/dir/package.json": JSON.stringify({ workspaces: [] }),
+		});
+
+		expect(() => findPackageManager({ cwd: "/dir" })).toThrow(
+			new NoPackageManagerDefinedError(),
 		);
 	});
 });

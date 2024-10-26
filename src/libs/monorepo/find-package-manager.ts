@@ -1,22 +1,21 @@
 import fs from "node:fs";
 import path from "node:path";
-import { NoPackageJsonFoundError } from "../../errors/no-package-json-found.js";
+import { readPackageJson } from "./read-package-json.js";
+import { findRootDirectory } from "./find-root-directory.js";
+import { NoPackageManagerDefinedError } from "../../errors/no-package-manager-defined.js";
 
-interface FindPackageManagerOptions {
+export interface FindPackageManagerOptions {
 	cwd: string;
 }
 
 export const findPackageManager = (options: FindPackageManagerOptions) => {
-	let currentPath = path.join(options.cwd, "_");
-	do {
-		currentPath = path.dirname(currentPath);
-		const packageJsonPath = path.join(currentPath, "package.json");
-		const packageManager = readPackageManagerFromPackageJson(packageJsonPath);
-		if (packageManager) {
-			return packageManager;
-		}
-	} while (currentPath !== "/");
-	throw new NoPackageJsonFoundError();
+	const rootDirectory = findRootDirectory({ cwd: options.cwd });
+	const packageJsonPath = path.join(rootDirectory, "package.json");
+	const packageManager = readPackageManagerFromPackageJson(packageJsonPath);
+	if (packageManager === undefined) {
+		throw new NoPackageManagerDefinedError();
+	}
+	return packageManager;
 };
 
 export const readPackageManagerFromPackageJson = (
@@ -25,9 +24,7 @@ export const readPackageManagerFromPackageJson = (
 	if (!fs.existsSync(packageJsonPath)) {
 		return undefined;
 	}
-	const packageJson = JSON.parse(
-		fs.readFileSync(packageJsonPath, "utf-8"),
-	) as Record<string, unknown>;
+	const packageJson = readPackageJson(packageJsonPath);
 	const packageManagerField: unknown = packageJson["packageManager"];
 	if (typeof packageManagerField !== "string") {
 		return undefined;
