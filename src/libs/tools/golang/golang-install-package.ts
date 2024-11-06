@@ -14,9 +14,8 @@ export const golangInstallPackage = async (
 	}
 
 	const monorepoTool = Monorepo.getMonorepoTool({ cwd: options.cwd });
-	const golangCompatibleJsPackageName = options.packageName.replace(
-		/[/@_]/g,
-		"-",
+	const golangCompatibleJsPackageName = getGolangCompatiblePackageName(
+		options.packageName,
 	);
 	await monorepoTool.installPackage({
 		cwd: options.cwd,
@@ -34,7 +33,7 @@ export const golangInstallPackage = async (
 	editGoMod({
 		goModPath,
 		require: golangPackageName,
-		replace: golangCompatibleJsPackageName,
+		replace: `./node_modules/${golangCompatibleJsPackageName}`,
 	});
 
 	await execPromise(`go mod tidy`, { cwd: options.cwd });
@@ -47,6 +46,13 @@ const isOtherPackageGolang = (options: Tool.InstallPackageOptions) => {
 		return false;
 	}
 	return golangIsUsedIn({ path: otherPackage.path });
+};
+
+const getGolangCompatiblePackageName = (packageName: string) => {
+	const forbiddenChars = ["/", "@", "_"];
+	return packageName
+		.replace(new RegExp(`${forbiddenChars.join("|")}`, "g"), "-")
+		.replace(/^-|-$/g, "");
 };
 
 interface GetGolangPackageNameOptions {
