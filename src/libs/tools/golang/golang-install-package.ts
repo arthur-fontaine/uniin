@@ -40,11 +40,10 @@ export const golangInstallPackage = async (
 };
 
 const isOtherPackageGolang = (options: Tool.InstallPackageOptions) => {
-	const packages = Monorepo.getPackages({ cwd: options.cwd });
-	const otherPackage = packages.find((p) => p.name === options.packageName);
-	if (otherPackage === undefined) {
-		return false;
-	}
+	const otherPackage = Monorepo.getPackage({
+		cwd: options.cwd,
+		packageName: options.packageName,
+	});
 	return golangIsUsedIn({ path: otherPackage.path });
 };
 
