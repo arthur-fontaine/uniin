@@ -2,7 +2,7 @@ import { Tool } from "../tool.js";
 import { Monorepo } from "../../monorepo/monorepo.js";
 import { execPromise } from "../../../utils/exec-promise.js";
 
-export const pnpmInstallPackage = (options: Tool.InstallPackageOptions) => {
+export const pnpmInstallPackage: Tool.InstallPackage = (options) => {
 	if (
 		Monorepo.isPackageInWorkspace({
 			cwd: options.cwd,

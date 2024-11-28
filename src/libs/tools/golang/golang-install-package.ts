@@ -6,9 +6,7 @@ import { NoModuleFoundInGomod } from "../../../errors/no-module-found-in-gomod.j
 import { execPromise } from "../../../utils/exec-promise.js";
 import { golangIsUsedIn } from "./golang-is-used-in.js";
 
-export const golangInstallPackage = async (
-	options: Tool.InstallPackageOptions,
-) => {
+export const golangInstallPackage: Tool.InstallPackage = async (options) => {
 	if (!isOtherPackageGolang(options)) {
 		return;
 	}

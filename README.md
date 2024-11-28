@@ -22,9 +22,7 @@ npm i uniin
 ```
 
 ```ts
-import { greet } from "uniin";
-
-greet("Hello, world! 💖");
+npx uniin install <package-name>
 ```
 
 ## Contributors

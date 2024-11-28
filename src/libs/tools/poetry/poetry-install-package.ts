@@ -3,9 +3,7 @@ import { Monorepo } from "../../monorepo/monorepo.js";
 import { Tool } from "../tool.js";
 import { poetryIsUsedIn } from "./poetry-is-used-in.js";
 
-export const poetryInstallPackage = async (
-	options: Tool.InstallPackageOptions,
-) => {
+export const poetryInstallPackage: Tool.InstallPackage = async (options) => {
 	if (!isOtherPackagePoetry(options)) {
 		return;
 	}
