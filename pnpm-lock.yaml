@@ -19,7 +19,7 @@ importers:
         version: 4.1.0
     devDependencies:
       '@commander-js/extra-typings':
-        specifier: ^12.0.1
+        specifier: 12.1.0
         version: 12.1.0(commander@12.1.0)
       '@eslint/js':
         specifier: 9.15.0
@@ -31,7 +31,7 @@ importers:
         specifier: 8.42.3
         version: 8.42.3
       '@types/js-yaml':
-        specifier: ^4.0.9
+        specifier: 4.0.9
         version: 4.0.9
       '@types/node':
         specifier: 22.9.0
@@ -61,7 +61,7 @@ importers:
         specifier: 15.2.10
         version: 15.2.10
       memfs:
-        specifier: ^4.14.0
+        specifier: 4.14.0
         version: 4.14.0
       prettier:
         specifier: 3.3.3
